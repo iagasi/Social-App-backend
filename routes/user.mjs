@@ -32,11 +32,12 @@ router.get("/:id", async (req, res) => {
 
     try {
         const user = await User.findById(id)
-        const { password, updatedAt, ...other } = user._doc
-        res.status(200).json(other)
+        console.log(user);
+       // const { password, updatedAt, ...other } = user._doc
+        res.status(200).json(user)
     }
     catch (e) {
-        res.send("internal server error")
+        res.status(500).send("internal server error")
     }
 })
 

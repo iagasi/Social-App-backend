@@ -7,9 +7,11 @@ import dotenv from "dotenv"
 import userRouter from "./routes/user.mjs"
 import authRouter from "./routes/auth.mjs"
 import postRouter from "./routes/post.mjs"
+import conversation from "./routes/conversation.mjs"
+import messages from "./routes/messages.mjs"
 import multer from "multer"
 import path from "path"
-import { log } from "console"
+
 import { fileURLToPath } from 'url';
 //////path
 const __filename = fileURLToPath(import.meta.url);
@@ -24,6 +26,8 @@ app.use("/images", express.static(uploadPath))
 app.use(morgan("common"))
 app.use(helmet())
 app.use("/user", userRouter)
+app.use("/conversations",conversation)
+app.use("/messages",messages)
 app.use(authRouter)
 app.use("/post", postRouter)
 const PORT = process.env.PORT || 5001

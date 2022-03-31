@@ -1,7 +1,6 @@
 import express from "express";
 import bcrypt from "bcrypt"
 import User from "../models/User.mjs"
-import { PeopleAltSharp, Reply } from "@material-ui/icons";
 import Post from "../models/Post.mjs";
 import fs from "fs"
 import path from "path"
@@ -145,23 +144,24 @@ router.post("/timeline", async (req, res) => {
 
         const { userId } = req.body
         let postsArray = []
+     
 
-        if (!userId) { return res.send("e") }
+        if (!userId) { return res.send("User not Logged") }
         const currentUser = await User.findById(userId)
 
 
         const userPosts = await Post.find({ userId: currentUser._id })
-
         let posts
         let postOwner = []
-        if (currentUser.followings.leength >= 0) {
-            for await (const iterator of currentUser.followings) {
+        if (currentUser.followers.length >= 0) {
+            for await (const iterator of currentUser.followers) {
 
                 posts = await Post.find({ userId: iterator })
 
 
             }
             postsArray.push(...posts)
+
             if (!posts) { res.send([]); return }
             for await (const iterator of posts) {
                 postOwner.push(await User.findById(iterator.userId))
